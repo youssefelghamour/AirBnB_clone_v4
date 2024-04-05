@@ -36,10 +36,14 @@ button:hover {
     font-weight: 600;
 }
 .filters h4 {
+    height: 16px;
     margin-left: 15%;
     margin-top: 0;
     font-weight: 400;
     font-size: 14px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 .locations {
     height: 100%;
