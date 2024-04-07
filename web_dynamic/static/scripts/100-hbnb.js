@@ -3,7 +3,6 @@ $(document).ready(function () {
   const selectedAmenities = {};
   const selectedStates = {};
   const selectedCities = {};
-  
 
   $('div.amenities input[type="checkbox"]').change(function () {
     const amenityId = $(this).data('id');
@@ -16,10 +15,12 @@ $(document).ready(function () {
     }
     $('div.amenities > h4').text(Object.values(selectedAmenities).join(', '));
   });
-  
-  $('ul.states input[type="checkbox"]').change(function () {
+
+  $('.locations ul li input[type="checkbox"]').change(function () {
     const stateId = $(this).data('id');
     const stateName = $(this).data('name');
+    // when a state is checked all its cities are checked too
+    // meaning that all the places within all the cities in that state are displayed
 
     if ($(this).is(':checked')) {
       selectedStates[stateId] = stateName;
@@ -28,8 +29,8 @@ $(document).ready(function () {
     }
     $('div.locations > h4').text(Object.values(selectedStates).join(', '));
   });
-  
-  $('ul.cities input[type="checkbox"]').change(function () {
+
+  $('.locations ul li input[type="checkbox"]').change(function () {
     const cityId = $(this).data('id');
     const cityName = $(this).data('name');
 
@@ -78,8 +79,7 @@ $(document).ready(function () {
     const amenities = Object.keys(selectedAmenities);
     const states = Object.keys(selectedStates);
     const cities = Object.keys(selectedCities);
-    const reqData = { amenities: amenities, states: states, cities: cities };
-    reqData.amenities = amenities;
+    const reqData = { amenities, states, cities };
     $.ajax({
       url: 'http://0.0.0.0:5001/api/v1/places_search/',
       type: 'POST',
