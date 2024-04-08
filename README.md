@@ -34,7 +34,7 @@ Documented commands (type help <topic>):
 EOF  all  create  destroy  help  quit  show  update
 
 (hbnb) all MyModel
-** class doesn't exist **
+** class does not exist **
 (hbnb) create BaseModel
 7da56403-cc45-4f1c-ad32-bfafeb2bb050
 (hbnb) all BaseModel
