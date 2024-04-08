@@ -99,3 +99,32 @@
 .user {
   margin-bottom: 1.5%;
 }
+
+.toggleReviews {
+    margin-left: 80px;
+    font-size: 18px;
+    color: #FF5A5F;
+    position: relative;
+    right: -65%;
+    float: right;
+}
+
+.places h2 {
+    display: inline-block;
+    margin-top: 25px;
+    font-size: 20px;
+    margin-bottom: 0px;
+}
+
+.reviewList {
+    padding-left: 20px;
+}
+
+.reviewListBorderTop {
+  border-top: 1px solid #DDDDDD;
+}
+
+.reviewList p {
+    margin-bottom: 30px;
+    margin-top: -10px;
+}

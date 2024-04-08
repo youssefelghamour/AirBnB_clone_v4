@@ -119,6 +119,7 @@ $(document).ready(function () {
     const placeId = $(this).data('place-id');
     const article = $(this).closest('article');
     const reviewList = article.find('.reviewList');
+    reviewList.addClass('reviewListBorderTop');
     if ($(this).text() === 'show') {
       $(this).text('hide');
       $.get(`http://localhost:5001/api/v1/places/${placeId}/reviews`, function(response) {
@@ -134,7 +135,7 @@ $(document).ready(function () {
             const day = date.getDate();
             reviewList.append(`
 	  	<li>
-			<li><h3>From ${data.first_name} ${data.last_name} the ${day + ' ' + month + ' ' + date.getFullYear()}</h3>
+			<h3>From ${data.first_name} ${data.last_name} the ${day + ' ' + month + ' ' + date.getFullYear()}</h3>
 			<p>${review.text}</p>
 		</li>`);
 	  });
