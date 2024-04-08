@@ -25,7 +25,7 @@ The command interpreter allows users to interact with the AirBnB objects by perf
 
 ### How to use it in:
 #### Interactive mode
-```
+```bash
 vagrantAirBnB_clone$./console.py
 (hbnb) help
 
