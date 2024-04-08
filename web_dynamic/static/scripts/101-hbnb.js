@@ -42,7 +42,7 @@ $(document).ready(function () {
     $('div.locations > h4').text(Object.values(selectedCities).join(', '));
   });
 
-  $.get('http://0.0.0.0:5001/api/v1/status/', function (data) {
+  $.get('http://localhost:5001/api/v1/status/', function (data) {
     if (data.status === 'OK') {
       $('#api_status').addClass('available');
     } else {
@@ -50,7 +50,7 @@ $(document).ready(function () {
     }
   });
   $.ajax({
-    url: 'http://0.0.0.0:5001/api/v1/places_search/',
+    url: 'http://localhost:5001/api/v1/places_search/',
     type: 'POST',
     contentType: 'application/json',
     data: '{}',
@@ -72,8 +72,8 @@ $(document).ready(function () {
                             ${place.description}
                         </div>
 			<div class="reviews">
-				<h2>Reviews<span id="toggleReviews" data-place-id=${place.id}>show</span></h2>
-				<ul id="reviewList"></ul>
+				<h2>Reviews<span class="toggleReviews" data-place-id=${place.id}>show</span></h2>
+				<ul class="reviewList"></ul>
 			</div>
                     </article>`);
       });
@@ -85,7 +85,7 @@ $(document).ready(function () {
     const cities = Object.keys(selectedCities);
     const reqData = { amenities, states, cities };
     $.ajax({
-      url: 'http://0.0.0.0:5001/api/v1/places_search/',
+      url: 'http://localhost:5001/api/v1/places_search/',
       type: 'POST',
       data: JSON.stringify(reqData),
       contentType: 'application/json',
@@ -107,38 +107,41 @@ $(document).ready(function () {
                             ${place.description}
                         </div>
 			<div class="reviews">
-				<h2>Reviews<span id="toggleReviews" data-place-id=${place.id}>show</span></h2>
-				<ul id="reviewList"></ul>
+				<h2>Reviews<span class="toggleReviews" data-place-id=${place.id}>show</span></h2>
+				<ul class="reviewList"></ul>
 			</div>
                     </article>`);
         });
       }
     });
   });
-  function getReviews(placeId) {
-    $.get('http://0.0.0.0:5001/api/v1/places/${placeId}/reviews', function(response) {
-      $('#reviewList').empty();
-      response.forEach((review) => {
-        $.get('http://0.0.0.0:5001/api/v1/users/${review.user_id}', function(data) {
-          const date = new Date(review.created_at);
-          const month = date.toLocaleString('en', { month: 'long' });
-          const day = dateOrdinal(date.getDate());
-          $('#reviewList').append(`
+  $(document).on('click', '.toggleReviews', function () {
+    const placeId = $(this).data('place-id');
+    const article = $(this).closest('article');
+    const reviewList = article.find('.reviewList');
+    if ($(this).text() === 'show') {
+      $(this).text('hide');
+      $.get(`http://localhost:5001/api/v1/places/${placeId}/reviews`, function(response) {
+        reviewList.empty();
+        const num = `${response.length} Review${response.length !== 1 ? 's' : ''}`;
+        const $toggleReviews = article.find('.reviews h2 .toggleReviews');
+        article.find('.reviews h2').html(`${num} `);
+        article.find('.reviews h2').append($toggleReviews);
+        response.forEach((review) => {
+          $.get(`http://localhost:5001/api/v1/users/${review.user_id}`, function(data) {
+            const date = new Date(review.created_at);
+            const month = date.toLocaleString('en', { month: 'long' });
+            const day = date.getDate();
+            reviewList.append(`
 	  	<li>
 			<li><h3>From ${data.first_name} ${data.last_name} the ${day + ' ' + month + ' ' + date.getFullYear()}</h3>
 			<p>${review.text}</p>
 		</li>`);
+	  });
 	});
       });
-    });
-  }
-  $('#toggleReviews').on('click', function () {
-    const placeId = $(this).data('place-id');
-    if ($(this).text() === 'show') {
-      getReviews(placeId);
-      $(this).text('hide');
     } else {
-      $('#reviewList').empty();
+      reviewList.empty();
       $(this).text('show');
     }
   })
