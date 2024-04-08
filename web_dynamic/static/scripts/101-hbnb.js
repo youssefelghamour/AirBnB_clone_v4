@@ -134,7 +134,7 @@ $(document).ready(function () {
             const day = date.getDate();
             reviewList.append(`
 	  	<li>
-			<li><h3>From ${data.first_name} ${data.last_name} ${day + ' ' + month + ' ' + date.getFullYear()}</h3>
+			<li><h3>From ${data.first_name} ${data.last_name} the ${day + ' ' + month + ' ' + date.getFullYear()}</h3>
 			<p>${review.text}</p>
 		</li>`);
 	  });
